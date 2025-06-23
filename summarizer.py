@@ -1,32 +1,23 @@
-import os
 import streamlit as st
-from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 import docx
 from ibm_watsonx_ai.foundation_models.model import Model
 
-# Load environment variables
-load_dotenv()
 
-# IBM Credentials
-API_KEY = os.getenv("IBM_GRANITE_API_KEY")
-PROJECT_ID = os.getenv("IBM_GRANITE_PROJECT_ID")
-API_URL = os.getenv(
-    "IBM_GRANITE_URL"
-)  # just base URL like: https://us-south.ml.cloud.ibm.com
-MODEL_ID = os.getenv("MODEL_ID")  # e.g., granite-3b-instruct
-
-
-# Function to summarize text using IBM Granite SDK
+# Function to summarize text using IBM Granite
 def summarize_text(text):
     if len(text) > 5000:
         text = text[:5000]
 
     try:
+        # ✅ Use secrets securely
         model = Model(
-            model_id=MODEL_ID,
-            credentials={"apikey": API_KEY, "url": API_URL},
-            project_id=PROJECT_ID,
+            model_id=st.secrets["MODEL_ID"],
+            credentials={
+                "apikey": st.secrets["IBM_GRANITE_API_KEY"],
+                "url": st.secrets["IBM_GRANITE_URL"],
+            },
+            project_id=st.secrets["IBM_GRANITE_PROJECT_ID"],
         )
 
         prompt = f"Summarize this text clearly:\n\n{text}"
@@ -41,7 +32,8 @@ def summarize_text(text):
                 "stop_sequences": [],
             },
         )
-        st.write("🧪 Raw Response:", response)
+
+        # The SDK usually returns just a string
         return response if isinstance(response, str) else str(response)
 
     except Exception as e:
