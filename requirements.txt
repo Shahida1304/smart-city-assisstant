@@ -18,3 +18,4 @@ requests
 ibm-watsonx-ai
 # Optional - for Streamlit styling and themes
 Pillow
+openai
