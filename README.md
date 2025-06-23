@@ -129,3 +129,9 @@ Contribution
 
 Contributions are welcome. Feel free to raise an issue or submit a pull request for improvements, additional modules, or bug fixes.
 
+
+
+## 🚀 Live Demo
+👉 [Click here to try the Smart City Assistant]👉( https://shahida1304-smartcity-assistant.streamlit.app/)
+
+
