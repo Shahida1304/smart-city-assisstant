@@ -1,25 +1,19 @@
-import os
 import streamlit as st
-from dotenv import load_dotenv
 from ibm_watsonx_ai.foundation_models.model import Model
 
-load_dotenv()
-
-# Load IBM credentials
-api_key = os.getenv("IBM_GRANITE_API_KEY")
-project_id = os.getenv("IBM_GRANITE_PROJECT_ID")
-base_url = os.getenv("IBM_GRANITE_URL")  # should be for text generation
-model_id = os.getenv("MODEL_ID")  # e.g., granite-3b-instruct
+# Load credentials securely from Streamlit secrets
+api_key = st.secrets["IBM_GRANITE_API_KEY"]
+project_id = st.secrets["IBM_GRANITE_PROJECT_ID"]
+base_url = st.secrets["IBM_GRANITE_URL"]
+model_id = st.secrets["MODEL_ID"]
 
 
 def run_chatbot():
     st.title("🤖 Smart City Chatbot (IBM Granite)")
 
-    # Initialize session state
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    # Display previous chat
     for i in range(0, len(st.session_state.chat_history), 2):
         with st.chat_message("user"):
             st.write(st.session_state.chat_history[i])
@@ -27,7 +21,6 @@ def run_chatbot():
             with st.chat_message("assistant"):
                 st.markdown(st.session_state.chat_history[i + 1])
 
-    # Chat input
     user_input = st.chat_input("Type your question here...")
 
     if user_input:
@@ -38,7 +31,6 @@ def run_chatbot():
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 try:
-                    # Initialize model
                     model = Model(
                         model_id=model_id,
                         credentials={"apikey": api_key, "url": base_url},
@@ -72,7 +64,5 @@ Response:"""
                     st.session_state.chat_history.append(output)
 
                 except Exception as e:
-                    st.error(f"Error: {str(e)}")
-                    st.session_state.chat_history.append(
-                        "Sorry, I encountered an issue."
-                    )
+                    st.error(f"IBM SDK Error: {str(e)}")
+                    st.session_state.chat_history.append("Sorry, I encountered an issue.")
