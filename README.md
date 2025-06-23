@@ -121,7 +121,7 @@ PyPDF2, python-docx
 
 Sample Files
 
-dummy_kpi.csv – for KPI forecasting
+electricity_usage_sample.csv – for KPI forecasting
 
 dummy_anomaly_data.csv – for anomaly detection
 
