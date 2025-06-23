@@ -1,4 +1,6 @@
 Smart City Assistant
+
+
 Smart City Assistant is a multi-functional dashboard built using Streamlit, designed to promote smart governance, sustainability, and public utility engagement. It integrates weather forecasts, pollution tracking, traffic monitoring, document summarization, chatbot interactions, KPI forecasting, customer feedback collection, anomaly detection, and eco-awareness tips.
 
 Features
